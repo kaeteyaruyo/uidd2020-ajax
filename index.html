@@ -1,0 +1,50 @@
+<!-- Frontend 1. 新增這個檔案 -->
+
+<!-- Frontend 2. 定義一個 <div>，並給他一個 id，等等用來顯示 ajax 取得的資料 -->
+<div id="container">This will display data</div>
+
+<!-- Frontend 3. 定義三個 <button>，表示等等按不同按鈕會回傳不同的資料 -->
+<!-- Frontend 6. 使用 `onclick` attribute，把下方定義的 `getData` 掛到 `<button>` 上 -->
+<!--
+    記得不同的按鈕應當傳不同的參數。請注意參數稍後會在後端被作為 array 的 index 使用，
+    而 array 的 index 是從 0 開始的，因此 1 號按鈕應當使用 0 當作參數，往後以此類推。
+-->
+<button onclick="getData(0)">Get data 1</button>
+<button onclick="getData(1)">Get data 2</button>
+<button onclick="getData(2)">Get data 3</button>
+
+<!-- Frontend 5. 定義 `<script>` 區塊，在裏面撰寫跟 ajax 有關的關鍵程式碼 -->
+<script>
+    // Frontend 5.1. 定義一個函數叫作 `getData`，吃一個參數來判別現在是要要求哪一筆資料，裏面使用 `fetch` 來動態取得資料
+    function getData(index){
+        /**
+         * fetch API 是 JavaScript 在 ES6 這個版本之後所新增的一個原生的、用來發 XMLHttpRequest 的方法。
+         * 它基於 Promise 語法被實作出來，所以可以使用 .then() 的方式完成非同步操作。
+         * 方法本體 fetch(route[, setting]) 至少需要吃一個參數，該參數是一個 string，代表要發送請求的網址。
+         * 格式與網址列的格式一模一樣，就是 protocal://host:port/route?queryString。
+         * 如果你發請求的 host:port 就是提供這個 html 檔案的 web server 的話，那可以只寫 / 後面的部份。
+         * 我們這次想要往 /data 這個 route 發送請求，並且想要使用 query string 來註明想取得的資料編號，
+         * 因此可以傳入 `/data?index=${index}` 作為請求的地址。
+         * 送出請求後，由於這是一個非同步操作，因此不知何時才會得到回應。我們可以使用 .then() 方法來聲明取得回應後要做什麼。
+         * fetch.then(callback)，吃一個 function 當作參數，代表這次 fetch 取得回應之後要做什麼。
+         * .then() 方法可以串接多個在 fetch 的後面，最前面的 .then() 會最先執行，然後往後一個一個「照順序」執行。
+         * 以此範例來說，我們取得回應之後會先使用 res.text() 方法取得回應字串之後，才會做畫面更新的動作。
+         */
+        fetch(`/data?index=${index}`) // query string 的格式為 ?fieldName1=value1&fieldName2=value2...
+        .then(function(res){
+            /**
+             * 取得回應的字串（沒做這個步驟的話，會拿到 Response 這種型態的物件，而不是資料本身）
+             * 請注意此處 return 的東西，會作為下一個 .then() 的 callback function 的參數
+             */
+            return res.text();
+        })
+        .then(function(data){
+            /**
+             * 此處的 data 就是上一個 .then() 的 callback function return 的東西
+             * 使用 document.getElementById()，取得指定 id 的 <div> 之後，
+             * 將新的資料放入他的 innerHTML 中，完成畫面更新。
+             */
+            document.getElementById('container').innerHTML = data;
+        });
+    }
+</script>
