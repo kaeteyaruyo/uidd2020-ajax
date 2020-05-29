@@ -32,3 +32,11 @@
 * 在終端機輸入 `node app.js` 執行 web server（後端程式碼）
 * 在瀏覽器網址列輸入 `127.0.0.1:[port]`，如果上述步驟都有正確執行，應當能看到你寫的頁面（有一段文字跟三個按鈕）
 * 按下對應的按鈕，上方文字應當改變為該按鈕對應的資料
+
+## 參考文件
+
+* [Express 4.x - API Reference](https://expressjs.com/en/4x/api.html)
+* [Using Fetch - Web APIs | MDN](https://developer.mozilla.org/zh-TW/docs/Web/API/Fetch_API/Using_Fetch)
+* [Using Promise - JavaScript | MDN](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Guide/Using_promises)
+* [Query string - Wikipedia](https://en.wikipedia.org/wiki/Query_string)
+* [HTML DOM getElementById() Method - W3School](https://www.w3schools.com/jsref/met_document_getelementbyid.asp)
